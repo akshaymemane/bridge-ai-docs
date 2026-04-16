@@ -1,42 +1,58 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 ---
-<BaseLayout title="BridgeAIChat Downloads">
-  <section class="card">
+<BaseLayout title="BridgeAIChat Downloads" description="Install BridgeAIChat app and agent releases.">
+  <section class="surface">
     <div class="eyebrow">Downloads</div>
-    <h1>GitHub Releases</h1>
-    <p>All first-beta downloads come from GitHub Releases only.</p>
-    <div class="grid two">
-      <div>
-        <h2>bridge-app</h2>
-        <p><a href="https://github.com/bridge-ai-chat/bridge-app/releases">GitHub Releases</a></p>
-      </div>
-      <div>
-        <h2>bridge-agent</h2>
-        <p><a href="https://github.com/bridge-ai-chat/bridge-agent/releases">GitHub Releases</a></p>
-      </div>
+    <h1>Install from GitHub Releases.</h1>
+    <p class="lede">
+      The beta ships as two release archives: the app repo for the gateway and hosted UI, and the agent repo for
+      remote device runtimes.
+    </p>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card stack">
+      <div class="eyebrow">bridge-ai-app</div>
+      <h2>Gateway + hosted UI</h2>
+      <p>Download the latest app release, extract it, and run the bundled gateway launcher.</p>
+      <p><a href="https://github.com/akshaymemane/bridge-ai-app/releases">Browse app releases</a></p>
+      <div class="note"><strong>Includes:</strong> <code>bridge-gateway</code>, built UI, <code>install-app.sh</code>, and <code>SHA256SUMS.txt</code>.</div>
+    </div>
+
+    <div class="card stack">
+      <div class="eyebrow">bridge-ai-agent</div>
+      <h2>Remote device runtime</h2>
+      <p>Download the matching agent release, extract it on the remote machine, and run <code>bash install-agent.sh</code>.</p>
+      <p><a href="https://github.com/akshaymemane/bridge-ai-agent/releases">Browse agent releases</a></p>
+      <div class="note"><strong>Includes:</strong> <code>bridge-agent</code>, <code>agent.yaml.example</code>, <code>install-agent.sh</code>, and <code>SHA256SUMS.txt</code>.</div>
     </div>
   </section>
 
-  <section class="section card">
-    <h2>Compatibility Matrix</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>App</th>
-          <th>Agent</th>
-          <th>Tested setups</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>v0.1.0-beta.1</td>
-          <td>v0.1.0-beta.1</td>
-          <td>macOS host + macOS agent, Linux VPS agent, Raspberry Pi/Linux ARM agent</td>
-          <td>Codex-first happy path</td>
-        </tr>
-      </tbody>
-    </table>
+  <section class="section-gap">
+    <div class="card">
+      <div class="eyebrow">Compatibility</div>
+      <h2>Version matrix</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>App</th>
+              <th>Agent</th>
+              <th>Tested setups</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>v0.1.0-beta.1</td>
+              <td>v0.1.0-beta.1</td>
+              <td>macOS host + macOS agent, macOS host + Raspberry Pi agent, macOS host + Linux VPS agent</td>
+              <td>Tailnet-input beta flow with Tailscale API-backed device discovery.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 </BaseLayout>

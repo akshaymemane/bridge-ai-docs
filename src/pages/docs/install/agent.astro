@@ -1,13 +1,62 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 ---
-<BaseLayout title="Install BridgeAIChat Agent">
-  <section class="card">
+<BaseLayout title="Install BridgeAIChat Agent" description="Install and configure a BridgeAIChat agent on a remote device.">
+  <section class="surface">
     <div class="eyebrow">Install</div>
-    <h1>Agent devices</h1>
-    <p>Pick the release archive that matches your device architecture, then configure the gateway URL over Tailscale.</p>
-    <pre>chmod +x ./bridge-agent
-cp agent.yaml.example agent.yaml
-./bridge-agent -config ./agent.yaml</pre>
+    <h1>Turn a machine into a BridgeAIChat agent.</h1>
+    <p class="lede">
+      Each agent device keeps its own AI CLI, working directory, and runtime context. The current installer can stay
+      minimal: it creates <code>agent.yaml</code>, auto-derives identity, and optionally installs a startup service.
+    </p>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card stack">
+      <div class="eyebrow">Release</div>
+      <h2>Use the agent archive</h2>
+      <pre>tar -xzf bridge-agent_v0.1.0-beta.1_darwin_arm64.tar.gz
+cd bridge-agent_v0.1.0-beta.1_darwin_arm64
+export BRIDGE_AGENT_GATEWAY_URL=ws://your-control-host:8080/agent
+bash install-agent.sh</pre>
+      <p>This writes <code>agent.yaml</code> beside the release files and can also register the agent as a background service.</p>
+    </div>
+
+    <div class="card stack">
+      <div class="eyebrow">Run</div>
+      <h2>Start the agent</h2>
+      <pre>./bridge-agent -config ./agent.yaml</pre>
+      <p>Once the websocket connects, the matching device should switch from <code>Agent Missing</code> to <code>Connected</code> in the UI.</p>
+    </div>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card">
+      <div class="eyebrow">Requirements</div>
+      <h2>What must exist on the device</h2>
+      <ul class="list tight">
+        <li><code>tmux</code> for Codex and other tmux-backed tools</li>
+        <li>Tailscale connectivity to the control host</li>
+        <li>An AI CLI already installed locally, such as Codex, Claude, or OpenClaw</li>
+        <li>A reachable websocket URL for the gateway, usually a Tailscale IP or MagicDNS hostname</li>
+      </ul>
+    </div>
+
+    <div class="card stack">
+      <div class="eyebrow">Example</div>
+      <h2>Minimal Claude config</h2>
+      <pre>default_tool: claude
+
+tools:
+  claude:
+    cmd: claude
+    args: ["-p", "--dangerously-skip-permissions"]
+    continue_args: ["--continue", "-p", "--dangerously-skip-permissions"]
+    direct: true
+
+gateway:
+  url: ws://100.101.102.103:8080/agent</pre>
+      <p><code>direct: true</code> is required for Claude. <code>--dangerously-skip-permissions</code> prevents Claude from blocking on interactive prompts that have no stdin to answer them.</p>
+    </div>
   </section>
 </BaseLayout>

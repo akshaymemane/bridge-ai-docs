@@ -1,13 +1,54 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 ---
-<BaseLayout title="Install BridgeAIChat Control Host">
-  <section class="card">
+<BaseLayout title="Install BridgeAIChat Control Host" description="Install and run the BridgeAIChat gateway and hosted UI.">
+  <section class="surface">
     <div class="eyebrow">Install</div>
-    <h1>Control host</h1>
-    <p>The control host runs the gateway and serves the web UI.</p>
-    <pre>tar -xzf bridge-app_v0.1.0-beta.1_darwin_arm64.tar.gz
+    <h1>Set up the control host.</h1>
+    <p class="lede">
+      The control host runs the gateway and serves the web UI. In the current beta, the gateway also talks directly to
+      the Tailscale API so the UI can list devices for the tailnet the user enters.
+    </p>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card stack">
+      <div class="eyebrow">Release</div>
+      <h2>Use the app archive</h2>
+      <pre>tar -xzf bridge-app_v0.1.0-beta.1_darwin_arm64.tar.gz
 cd bridge-app_v0.1.0-beta.1_darwin_arm64
-./run-gateway.sh</pre>
+bash install-app.sh</pre>
+      <p>The packaged installer copies the gateway and UI into <code>~/.bridge-app/current</code> and installs a local launcher.</p>
+    </div>
+
+    <div class="card stack">
+      <div class="eyebrow">Dev</div>
+      <h2>Run from source</h2>
+      <pre>cd bridge-ai-app/gateway
+go run ./cmd/gateway</pre>
+      <p>This is the fastest way to verify changes locally before cutting a release archive.</p>
+    </div>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card">
+      <div class="eyebrow">Required Env</div>
+      <h2>Set the Tailscale API credentials</h2>
+      <pre>export TAILSCALE_CLIENT_ID=tsid_xxx
+export TAILSCALE_CLIENT_SECRET=tssecret_xxx
+export TAILSCALE_API_BASE=https://api.tailscale.com/api/v2
+export APP_URL=http://localhost:8080</pre>
+      <p><code>APP_URL</code> should match the browser origin you use to open the UI.</p>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Verify</div>
+      <h2>Check the gateway</h2>
+      <pre>bridge-gateway
+
+# open in a browser
+http://localhost:8080</pre>
+      <p>Use the login screen to enter your tailnet. If the page loads but no devices appear, verify the Tailscale API credentials and tailnet value first.</p>
+    </div>
   </section>
 </BaseLayout>

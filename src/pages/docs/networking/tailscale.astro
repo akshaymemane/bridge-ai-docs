@@ -1,12 +1,53 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 ---
-<BaseLayout title="BridgeAIChat Tailscale Guide">
-  <section class="card">
+<BaseLayout title="BridgeAIChat Tailscale Guide" description="Connect the BridgeAIChat control host and agents over Tailscale.">
+  <section class="surface">
     <div class="eyebrow">Networking</div>
-    <h1>Tailscale</h1>
-    <p>BridgeAIChat beta assumes a trusted Tailscale network between the control host and all agent devices.</p>
-    <pre>gateway:
+    <h1>Use Tailscale for both discovery and private agent routing.</h1>
+    <p class="lede">
+      The current beta assumes a trusted Tailscale network. The gateway lists devices through the Tailscale API, and
+      each remote agent still talks back to the control host over a private Tailscale address.
+    </p>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card">
+      <div class="eyebrow">Browser Flow</div>
+      <h2>What the UI asks for</h2>
+      <pre>Continue with Tailscale
+example.ts.net</pre>
+      <p>The selected tailnet is stored in the session and used for <code>GET /api/devices</code>.</p>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Gateway Env</div>
+      <h2>What the backend needs</h2>
+      <pre>TAILSCALE_CLIENT_ID=tsid_xxx
+TAILSCALE_CLIENT_SECRET=tssecret_xxx
+TAILSCALE_API_BASE=https://api.tailscale.com/api/v2</pre>
+      <p>The gateway exchanges these credentials for a client-credentials token, then fetches devices from the requested tailnet.</p>
+    </div>
+  </section>
+
+  <section class="section-gap grid two">
+    <div class="card">
+      <div class="eyebrow">Agent Routing</div>
+      <h2>What agents still need</h2>
+      <pre>gateway:
   url: ws://100.x.x.x:8080/agent</pre>
+      <p>You can also use a MagicDNS hostname. The agent only needs to reach the control host over Tailscale.</p>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Checklist</div>
+      <h2>Before blaming the app</h2>
+      <ul class="list tight">
+        <li>Confirm the control host and agent device are connected to the same tailnet</li>
+        <li>Confirm the gateway is running on port <code>8080</code></li>
+        <li>Confirm the browser entered the correct tailnet name</li>
+        <li>Confirm the agent can reach the control host's Tailscale address from the terminal</li>
+      </ul>
+    </div>
   </section>
 </BaseLayout>

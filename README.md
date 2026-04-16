@@ -1,17 +1,20 @@
 # bridge-docs
 
-This directory is the seed for the future standalone `bridge-docs` repository.
+Public documentation site for the BridgeAIChat beta.
 
-Stack:
+## Stack
 
 - Astro
 - static output
 - Vercel deployment target
 
-Owned pages:
+## Scope
 
-- marketing landing page
-- docs index and install guides
-- downloads page
-- compatibility matrix
-- roadmap
+This repo documents the current beta only:
+
+- `bridge-ai-app` release setup
+- `bridge-ai-agent` release setup
+- Tailscale-based device discovery
+- device states: `Connected`, `Agent Missing`, and `Offline`
+
+It does not document unreleased auth flows, Homebrew tap packaging, or old manual agent identity setup.
