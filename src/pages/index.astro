@@ -5,11 +5,11 @@ import BaseLayout from '../layouts/BaseLayout.astro'
   <section class="hero">
     <div class="surface">
       <div class="eyebrow">Developer Control Plane</div>
-      <h1>Operate the AI tools on your machines from one chat surface.</h1>
+      <h1>One chat surface for all your AI CLI tools.</h1>
       <p class="lede">
-        BridgeAIChat gives you a shared UI for Codex, Claude, and other CLI-native tools running on your laptop,
-        desktop, VPS, or Raspberry Pi. The gateway stays on your side, the agents stay on your devices, and Tailscale
-        ties discovery and private routing together.
+        BridgeAIChat connects Codex, Claude, and other CLI-native tools running on your laptop, desktop, VPS, or
+        Raspberry Pi behind a single web UI. Your gateway, your agents, your devices — Tailscale handles the private
+        networking.
       </p>
       <div class="pill-row">
         <span class="pill">Tailnet login beta</span>
@@ -23,15 +23,15 @@ import BaseLayout from '../layouts/BaseLayout.astro'
       <div class="metric-grid">
         <div class="metric">
           <strong>1 UI</strong>
-          <span>for your laptop, VPS, and edge boxes</span>
+          <span>laptop, VPS, and edge boxes together</span>
         </div>
         <div class="metric">
           <strong>0 hosted runtime</strong>
-          <span>required for the current beta</span>
+          <span>nothing runs in our cloud</span>
         </div>
         <div class="metric">
-          <strong>3 states</strong>
-          <span>Connected, Agent Missing, and Offline</span>
+          <strong>3 device states</strong>
+          <span>Connected, Agent Missing, Offline</span>
         </div>
       </div>
     </div>
@@ -41,59 +41,111 @@ import BaseLayout from '../layouts/BaseLayout.astro'
         <span class="terminal-dot"></span>
         <span class="terminal-dot"></span>
         <span class="terminal-dot"></span>
+        <span style="margin-left:8px;font-size:0.75rem;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;">bridge-gateway</span>
       </div>
-      <pre>export TAILSCALE_CLIENT_ID=tsid_xxx
+      <pre><span style="color:#6b9f6b"># set Tailscale API credentials</span>
+export TAILSCALE_CLIENT_ID=tsid_xxx
 export TAILSCALE_CLIENT_SECRET=tssecret_xxx
 export TAILSCALE_API_BASE=https://api.tailscale.com/api/v2
 export APP_URL=http://localhost:8080
 
-bridge-gateway
+<span style="color:#e8a87c">./bridge-gateway</span>
+<span style="color:rgba(255,255,255,0.35)">→ listening on :8080</span>
 
-# then in the browser
-Continue with Tailscale
-tail427f1a.ts.net
+<span style="color:#6b9f6b"># open in browser, enter your tailnet</span>
+<span style="color:rgba(255,255,255,0.35)">http://localhost:8080</span>
+<span style="color:#e8a87c">example.ts.net</span>
 
-# on another device
-bash install-agent.sh</pre>
+<span style="color:#6b9f6b"># on each agent device</span>
+export BRIDGE_AGENT_GATEWAY_URL=ws://host:8080/agent
+<span style="color:#e8a87c">bash install-agent.sh</span></pre>
     </div>
   </section>
 
   <section class="section-gap grid three">
     <div class="card">
       <div class="eyebrow">Own the Runtime</div>
-      <h2>Keep execution where your tools already live.</h2>
-      <p>BridgeAIChat does not replace your local CLI tools. It wraps them with a better control surface and a device-aware transport layer.</p>
+      <h2>Execution stays where your tools already live.</h2>
+      <p>BridgeAIChat wraps your local CLI tools with a shared control surface. Nothing is rerouted through an external server — every command runs on the device it's configured for.</p>
     </div>
     <div class="card">
       <div class="eyebrow">Fleet Visibility</div>
-      <h2>See which machine is reachable.</h2>
-      <p>The UI merges Tailscale device status with live Bridge agents so you can immediately tell whether a machine is connected, missing an agent, or offline.</p>
+      <h2>See which machine is reachable, at a glance.</h2>
+      <p>The UI merges Tailscale device status with live Bridge agent connections, so you always know whether a machine is ready, missing an agent, or fully offline.</p>
     </div>
     <div class="card">
       <div class="eyebrow">Beta Shape</div>
-      <h2>Simple login, simple networking.</h2>
-      <p>The beta uses a tailnet input form instead of Tailscale user auth. The gateway handles device discovery with your Tailscale API credentials.</p>
+      <h2>Minimal login, no hosted auth required.</h2>
+      <p>The beta uses a tailnet input form in place of Tailscale OAuth. Enter your tailnet name and the gateway calls the Tailscale API directly with your credentials.</p>
     </div>
   </section>
 
   <section class="section-gap grid two">
     <div class="card stack">
-      <div class="eyebrow">How It Works</div>
-      <h2>Minimal architecture, clear boundaries.</h2>
-      <div class="note"><strong>bridge-ai-app</strong> runs the gateway and serves the UI.</div>
-      <div class="note"><strong>bridge-ai-agent</strong> runs on each remote machine and bridges to local AI CLIs.</div>
-      <div class="note"><strong>bridge-ai-docs</strong> is the install guide and beta reference site.</div>
+      <div class="eyebrow">How it works</div>
+      <h2>Three components, clear responsibilities.</h2>
+      <div class="arch-item">
+        <span class="arch-tag">bridge-ai-app</span>
+        <p>Runs the gateway process, serves the web UI, and queries the Tailscale API to discover and track your devices.</p>
+      </div>
+      <div class="arch-item">
+        <span class="arch-tag">bridge-ai-agent</span>
+        <p>Runs on each remote machine. Maintains a WebSocket back to the gateway and spawns your local AI CLI tool on demand.</p>
+      </div>
+      <div class="arch-item">
+        <span class="arch-tag">bridge-ai-docs</span>
+        <p>This site — install guides, tool configuration reference, and troubleshooting for the current beta.</p>
+      </div>
     </div>
 
     <div class="card stack">
-      <div class="eyebrow">Best Fit</div>
-      <h2>Who the beta is for.</h2>
+      <div class="eyebrow">Best fit</div>
+      <h2>Who should try the beta.</h2>
       <ul class="list tight">
-        <li>Developers using Codex or Claude CLI on more than one machine</li>
+        <li>Developers running Codex or Claude CLI across more than one machine</li>
         <li>Homelab operators with GPU boxes, VPS hosts, or Raspberry Pi nodes</li>
-        <li>Platform engineers who want a private, inspectable AI runtime path</li>
-        <li>Early testers comfortable running the gateway with local Tailscale credentials</li>
+        <li>Platform engineers who want a private, inspectable AI execution path</li>
+        <li>Early testers comfortable running a gateway with local Tailscale credentials</li>
       </ul>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .arch-item {
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+
+  .arch-tag {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-family: 'JetBrains Mono', 'SFMono-Regular', Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--teal);
+    background: var(--teal-soft);
+    border: 1px solid var(--teal-soft-border);
+    padding: 2px 8px;
+    border-radius: 5px;
+    letter-spacing: 0;
+  }
+
+  .arch-item p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .terminal pre {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: #d4d0ca;
+  }
+</style>
