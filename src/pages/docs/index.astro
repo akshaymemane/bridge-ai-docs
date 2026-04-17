@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import DocsLayout from '../../layouts/DocsLayout.astro'
 ---
-<BaseLayout title="BridgeAIChat Docs" description="Install, run, and troubleshoot the BridgeAIChat beta.">
+<DocsLayout title="BridgeAIChat Docs" description="Install, run, and troubleshoot the BridgeAIChat beta.">
   <section class="surface">
     <div class="eyebrow">Documentation</div>
     <h1>From first install to a working multi-device beta setup.</h1>
@@ -17,16 +17,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
       <h2>Core setup path</h2>
       <div class="doc-links">
         <a class="doc-link" href="/docs/quickstart">
-          <strong>Quickstart</strong>
-          Fastest path from fresh install to first reply.
+          <div><strong>Quickstart</strong><span>Fastest path from fresh install to first reply.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
         <a class="doc-link" href="/docs/install/control-host">
-          <strong>Install the control host</strong>
-          Run the gateway, set Tailscale API credentials, and open the UI.
+          <div><strong>Install the control host</strong><span>Run the gateway, set Tailscale API credentials, and open the UI.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
         <a class="doc-link" href="/docs/install/agent">
-          <strong>Install an agent device</strong>
-          Configure tmux, gateway connectivity, and your local AI CLI.
+          <div><strong>Install an agent device</strong><span>Configure tmux, gateway connectivity, your local AI CLI, and the built-in Bridge Helper.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
       </div>
     </div>
@@ -36,22 +36,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
       <h2>Environment-specific help</h2>
       <div class="doc-links">
         <a class="doc-link" href="/docs/tools/codex">
-          <strong>Codex guide</strong>
-          Recommended beta path and working assumptions.
+          <div><strong>Codex guide</strong><span>Recommended beta path and working assumptions.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
         <a class="doc-link" href="/docs/tools/claude">
-          <strong>Claude guide</strong>
-          Login, quota, and local-device caveats.
+          <div><strong>Claude guide</strong><span>Login, quota, and local-device caveats.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
         <a class="doc-link" href="/docs/networking/tailscale">
-          <strong>Tailscale guide</strong>
-          Tailnet input, API credentials, and private agent routing.
+          <div><strong>Tailscale guide</strong><span>Tailnet input, API credentials, and private agent routing.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
         <a class="doc-link" href="/docs/troubleshooting">
-          <strong>Troubleshooting</strong>
-          Fix the most common setup and runtime failures.
+          <div><strong>Troubleshooting</strong><span>Fix the most common setup and runtime failures.</span></div>
+          <span class="doc-link-arrow">›</span>
         </a>
       </div>
     </div>
   </section>
-</BaseLayout>
+</DocsLayout>

@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro'
+import DocsLayout from '../../../layouts/DocsLayout.astro'
 ---
-<BaseLayout title="Install BridgeAIChat Agent" description="Install and configure a BridgeAIChat agent on a remote device.">
+<DocsLayout title="Install BridgeAIChat Agent" description="Install and configure a BridgeAIChat agent on a remote device.">
   <section class="surface">
     <div class="eyebrow">Install</div>
     <h1>Turn a machine into a BridgeAIChat agent.</h1>
@@ -40,6 +40,7 @@ bash install-agent.sh</pre>
         <li>An AI CLI already installed locally, such as Codex, Claude, or OpenClaw</li>
         <li>A reachable websocket URL for the gateway, usually a Tailscale IP or MagicDNS hostname</li>
       </ul>
+      <p class="muted" style="margin-top:14px">The built-in <code>Bridge Helper</code> is always available once the agent connects, even though it does not appear in <code>agent.yaml</code>.</p>
     </div>
 
     <div class="card stack">
@@ -59,4 +60,4 @@ gateway:
       <p><code>direct: true</code> is required for Claude. <code>--dangerously-skip-permissions</code> prevents Claude from blocking on interactive prompts that have no stdin to answer them.</p>
     </div>
   </section>
-</BaseLayout>
+</DocsLayout>

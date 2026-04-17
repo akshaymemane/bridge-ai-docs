@@ -1,69 +1,82 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import DocsLayout from '../../layouts/DocsLayout.astro'
 ---
-<BaseLayout title="BridgeAIChat Quickstart" description="Get BridgeAIChat running across a control host and one agent device.">
+<DocsLayout title="BridgeAIChat Quickstart" description="Get BridgeAIChat running across a control host and one agent device.">
   <section class="surface">
     <div class="eyebrow">Quickstart</div>
-    <h1>Bring up the beta in three moves.</h1>
+    <h1>Get running in three steps.</h1>
     <p class="lede">
-      The beta path is intentionally simple: run the gateway with Tailscale API credentials, enter your tailnet in the
-      UI, and connect one agent device over Tailscale.
+      Run the gateway with your Tailscale API credentials, enter your tailnet in the UI, then connect one agent device.
+      The whole path takes under ten minutes on a machine that already has Tailscale running.
     </p>
-    <div class="status section"><strong>Beta note:</strong> Codex and Claude both work in the current beta. Claude should use <code>direct: true</code> and <code>--dangerously-skip-permissions</code> in <code>agent.yaml</code>.</div>
+    <div class="status section">
+      <strong>Beta note —</strong> Codex and Claude both work. Claude requires <code>direct: true</code> and <code>--dangerously-skip-permissions</code> in <code>agent.yaml</code> — without both flags, Claude will hang or return permission prompts instead of real replies.
+    </div>
   </section>
 
   <section class="section-gap step-list">
     <div class="step">
       <div class="step-number">1</div>
-      <p class="mini-title">Start the control host</p>
+      <h3 class="mini-title">Start the control host</h3>
       <pre>export TAILSCALE_CLIENT_ID=tsid_xxx
 export TAILSCALE_CLIENT_SECRET=tssecret_xxx
 export TAILSCALE_API_BASE=https://api.tailscale.com/api/v2
 export APP_URL=http://localhost:8080
 
 ./bridge-gateway</pre>
-      <p class="muted">Use the <code>bridge-ai-app</code> release archive or a local build. The gateway serves the UI on <code>http://localhost:8080</code>.</p>
+      <p class="muted">Use the <code>bridge-ai-app</code> release archive or a local build. The gateway serves the UI at <code>http://localhost:8080</code>. See <a href="/docs/install/control-host">Install the control host</a> for the full setup.</p>
     </div>
 
     <div class="step">
       <div class="step-number">2</div>
-      <p class="mini-title">Open the UI and connect your tailnet</p>
+      <h3 class="mini-title">Open the UI and enter your tailnet</h3>
       <pre>http://localhost:8080
 
-Continue with Tailscale
-example.ts.net</pre>
-      <p class="muted">The browser stores the selected tailnet in the session, then loads devices from the Tailscale API.</p>
+→ Continue with Tailscale
+→ Enter tailnet: example.ts.net</pre>
+      <p class="muted">The browser stores the selected tailnet in session, then fetches your devices from the Tailscale API. Any device already in your tailnet will appear immediately.</p>
     </div>
 
     <div class="step">
       <div class="step-number">3</div>
-      <p class="mini-title">Install one agent on another machine</p>
+      <h3 class="mini-title">Install an agent on another machine</h3>
       <pre>export BRIDGE_AGENT_GATEWAY_URL=ws://your-control-host:8080/agent
 bash install-agent.sh
 ./bridge-agent -config ./agent.yaml</pre>
-      <p class="muted">Once the machine is reachable in Tailscale, it should show as <code>Agent Missing</code> first and switch to <code>Connected</code> after the agent comes online.</p>
+      <p class="muted">The device will first show as <code>Agent Missing</code> (visible in Tailscale but no agent connected), then switch to <code>Connected</code> once the agent establishes its WebSocket. See <a href="/docs/install/agent">Install an agent device</a> for full config options.</p>
     </div>
   </section>
 
   <section class="section-gap grid two">
     <div class="card">
-      <div class="eyebrow">Required Gateway Env</div>
+      <div class="eyebrow">Tool selector</div>
+      <h2>Pick the runtime before you send</h2>
+      <p>The header tool selector decides which runtime answers your next message.</p>
+      <ul class="list tight">
+        <li><code>Codex</code> or <code>Claude</code> for reasoning and coding tasks</li>
+        <li><code>Bridge Helper</code> for fast read-only checks like <code>status</code>, <code>pwd</code>, <code>ls</code>, <code>read file &lt;path&gt;</code>, <code>tail &lt;path&gt;</code>, and <code>processes</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">Required gateway env</div>
       <h2>What the control host needs</h2>
       <pre>TAILSCALE_CLIENT_ID=tsid_xxx
 TAILSCALE_CLIENT_SECRET=tssecret_xxx
 TAILSCALE_API_BASE=https://api.tailscale.com/api/v2
 APP_URL=http://localhost:8080</pre>
-      <p>These credentials let the gateway exchange a client-credentials token and list devices for the tailnet entered in the UI.</p>
+      <p>These credentials let the gateway exchange a client-credentials token and list devices for the tailnet you enter in the UI. <code>APP_URL</code> must match the origin you use to open the browser.</p>
     </div>
 
     <div class="card">
-      <div class="eyebrow">Expected Device States</div>
+      <div class="eyebrow">Expected device states</div>
       <h2>What you should see</h2>
       <ul class="list tight">
-        <li><code>Connected</code>: the machine is online in Tailscale and the Bridge agent is connected</li>
-        <li><code>Agent Missing</code>: the machine is online in Tailscale but no Bridge agent is connected yet</li>
-        <li><code>Offline</code>: the machine is currently offline in Tailscale</li>
+        <li><code>Connected</code> — machine is in Tailscale and the Bridge agent is live</li>
+        <li><code>Agent Missing</code> — machine is in Tailscale but agent hasn't connected yet</li>
+        <li><code>Offline</code> — machine is not currently reachable in Tailscale</li>
       </ul>
+      <p class="muted" style="margin-top:14px">If a machine stays at <code>Agent Missing</code>, check the gateway URL in <code>agent.yaml</code> and confirm Tailscale connectivity from that machine.</p>
     </div>
   </section>
-</BaseLayout>
+</DocsLayout>
